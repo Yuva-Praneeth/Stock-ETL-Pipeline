@@ -1,7 +1,7 @@
 # Stock Market ETL Pipeline — Medallion Architecture
 
 A small, self-contained project showing an API → ETL (Bronze/Silver/Gold) →
-SQLite → Streamlit pipeline, using plain Python (no PySpark).
+SQLite → Streamlit pipeline, using Python .
 
 ## Architecture
 
