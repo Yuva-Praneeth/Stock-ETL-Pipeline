@@ -68,17 +68,3 @@ pick a date range, and click **Run ETL Pipeline**. Use the tabs to inspect
 each medallion layer directly — Bronze shows the raw API rows, Silver shows
 the cleaned/enriched rows, and Gold shows the aggregates and charts.
 
-## Notes for evaluators
-
-- **Idempotent Silver/Gold loads**: re-running the pipeline uses
-  `INSERT ... ON CONFLICT ... DO UPDATE` (upsert), so running it twice for
-  the same ticker/date doesn't duplicate rows — it just refreshes them.
-- **Bronze is append-only by design**: it's the audit trail of what the API
-  actually returned at ingestion time, so old bronze rows aren't overwritten.
-- **No PySpark / Spark**: transformations are plain pandas, which is
-  appropriate at this data volume and keeps the project easy to read end to end.
-- The API layer was swapped from Yahoo Finance to Alpha Vantage by editing
-  **only** `api_client.py` — Bronze/Silver/Gold, `pipeline.py`, and `app.py`
-  didn't need a single change, since they only depend on the DataFrame shape
-  `fetch_price_history()` returns. That's the whole point of isolating it.
-- API key is read from an environment variable (via `.env`), never hard-coded.
